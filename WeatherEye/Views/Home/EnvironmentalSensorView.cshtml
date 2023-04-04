@@ -1,0 +1,33 @@
+﻿@model IEnumerable<WeatherEye.Models.EnvironmentalSensor>
+
+@{
+    ViewData["Title"] = "EnvironmentalSensor";
+}
+
+<h2>Odczyty z czujnika środowiska </h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Dampness</th>
+            <th>Temperature</th>
+            <th>Pressure</th>
+            <th>IAQuality</th>
+            <th>DateOfReading</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var uv in Model)
+        {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => uv.Id)</td>
+                    <td>@Html.DisplayFor(modelItem => uv.Dampness) <b>[jednostka]</b></td>
+                    <td>@Html.DisplayFor(modelItem => uv.Temperature) <b>[jednostka]</b></td>
+                    <td>@Html.DisplayFor(modelItem => uv.Pressure) <b>[jednostka]</b></td>
+                    <td>@Html.DisplayFor(modelItem => uv.IAQuality) <b>[jednostka]</b></td>
+                    <td>@Html.DisplayFor(modelItem => uv.DateOfReading)</td>
+                </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,29 @@
+﻿@model IEnumerable<WeatherEye.Models.DustSensor>
+
+@{
+    ViewData["Title"] = "DustSensor";
+}
+
+<h2>Odczyty z czujnika pyłów</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>IntensityPm2_5</th>
+            <th>IntensityPm10</th>
+            <th>Data Odczytu</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var uv in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => uv.Id)</td>
+                <td>@Html.DisplayFor(modelItem => uv.IntensityPm2_5) <b>[jednostka]</b></td>
+                <td>@Html.DisplayFor(modelItem => uv.IntensityPm10) <b>[jednostka]</b></td>
+                <td>@Html.DisplayFor(modelItem => uv.DateOfReading)</td>
+            </tr>
+        }
+    </tbody>
+</table>

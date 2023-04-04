@@ -1,0 +1,28 @@
+﻿@model IEnumerable<WeatherEye.Models.RainSensor>
+
+@{
+    ViewData["Title"] = "RainSensor";
+}
+
+<h2>Odczyty z czujnika światła </h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Rain</th>
+            <th>IntensityOfRain</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var uv in Model)
+        {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => uv.Id)</td>
+                            <td>@Html.DisplayFor(modelItem => uv.Rain) <b>[jednostka]</b></td>
+                            <td>@Html.DisplayFor(modelItem => uv.IntensityOfRain) <b>[jednostka]</b></td>
+                            <td>@Html.DisplayFor(modelItem => uv.DateOfReading)</td>
+                        </tr>
+        }
+    </tbody>
+</table>
