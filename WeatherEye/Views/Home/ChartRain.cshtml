@@ -1,0 +1,64 @@
+﻿@model List<WeatherEye.Models.RainSensor>
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js/dist/Chart.min.css">
+</head>
+<!-- Element HTML, w którym zostanie wygenerowany wykres -->
+
+<h1>Wykres dojebany fest</h1>
+<div>
+    <canvas id="myChart"></canvas>
+</div>
+<div id="rainsValues"></div>
+
+<!-- Skrypt JavaScript generujący wykres liniowy na podstawie danych z listy "rain" -->
+<script>
+    // Pobranie danych z listy "rain" i przypisanie ich do zmiennych
+    let dates = [];
+    let rains = [];
+    var rains2 = [];
+    
+    @foreach (var item in Model)
+    {
+        <text>
+            dates.push('@item.DateOfReading.ToString("yyyy-MM-dd")');
+            rains.push('@item.Rain');
+        </text>
+    }
+    // Konfiguracja i generowanie wykresu liniowego przy użyciu danych z listy "rain"
+    for(let i=0;i<rains.length; i++)
+    {
+        rains[i] = rains[i].toString();
+        rains[i] = rains[i].replace(",", ".");
+        console.log(rains[i]);
+    }
+
+    let ctx = document.getElementById('myChart').getContext('2d');
+    let chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: dates, // Dane na osi OX
+            datasets: [{
+                label: 'Rain Data', // Etykieta wykresu
+                data: rains, // Dane na osi OY
+                fill: true,
+                backgroundColor: 'rgba(75, 192, 192, 0.2)', // Kolor wypełnienia wykresu
+                borderColor: 'rgba(75, 192, 192, 1)', // Kolor linii wykresu
+                tension: 0.1 // Grubość linii wykresu
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+
+    
+</script>
+
+

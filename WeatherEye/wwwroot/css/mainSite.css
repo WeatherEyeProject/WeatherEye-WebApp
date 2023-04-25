@@ -1,19 +1,4 @@
-html {
-  font-size: 14px;
-}
-
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-html {
-  position: relative;
-  min-height: 100%;
-}
-
-body {
+﻿body {
     background: url('../css/backgrounds/sunny.png') no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;

@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Globalization;
+using System.Text.RegularExpressions;
 using WeatherEye.Models;
 
 namespace WeatherEye.Controllers
@@ -16,6 +18,16 @@ namespace WeatherEye.Controllers
         {
             var dusts = _context.DustSensors.ToList();
             return View(dusts);
+        }
+        public IActionResult ChartRain()
+        {
+            var rain = _context.RainSensors.ToList();
+            return View(rain);
+        }
+
+        public ActionResult LineChart() 
+        {
+            return View();
         }
 
         public IActionResult EnvironmentalSensorView()

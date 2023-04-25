@@ -7,6 +7,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\css\backgrounds\cloudy.png" />
+    <None Include="wwwroot\css\backgrounds\foggy.png" />
+    <None Include="wwwroot\css\backgrounds\heavy_rain.png" />
+    <None Include="wwwroot\css\backgrounds\light_rain.png" />
+    <None Include="wwwroot\css\backgrounds\snowy.png" />
+    <None Include="wwwroot\css\backgrounds\storm.png" />
+    <None Include="wwwroot\css\backgrounds\sun&amp;clouds.png" />
+    <None Include="wwwroot\css\backgrounds\sunny.png" />
+    <None Include="wwwroot\css\capi\capy.png" />
+    <None Include="wwwroot\css\capi\capy_with_sunglasses.png" />
+    <None Include="wwwroot\css\capi\rainy_capy.png" />
+    <None Include="wwwroot\css\capi\snowman.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.10">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -16,6 +31,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
 
 </Project>
