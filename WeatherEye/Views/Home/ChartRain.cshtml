@@ -16,7 +16,6 @@
     // Pobranie danych z listy "rain" i przypisanie ich do zmiennych
     let dates = [];
     let rains = [];
-    var rains2 = [];
     
     @foreach (var item in Model)
     {
@@ -41,7 +40,6 @@
             datasets: [{
                 label: 'Rain Data', // Etykieta wykresu
                 data: rains, // Dane na osi OY
-                fill: true,
                 backgroundColor: 'rgba(75, 192, 192, 0.2)', // Kolor wypełnienia wykresu
                 borderColor: 'rgba(75, 192, 192, 1)', // Kolor linii wykresu
                 tension: 0.1 // Grubość linii wykresu

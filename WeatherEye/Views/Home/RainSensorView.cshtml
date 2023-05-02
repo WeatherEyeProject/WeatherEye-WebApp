@@ -4,21 +4,82 @@
     ViewData["Title"] = "RainSensor";
 }
 
-<h2>Odczyty z czujnika światła </h2>
+<h2>Odczyty z czujnika Deszczu </h2>
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js/dist/Chart.min.css">
+</head>
+<!-- Element HTML, w którym zostanie wygenerowany wykres -->
 
+<h1>Wykres dojebany fest</h1>
+<div>
+    <canvas id="myChart"></canvas>
+</div>
+<div id="rainsValues"></div>
+
+<!-- Skrypt JavaScript generujący wykres liniowy na podstawie danych z listy "rain" -->
+<script>
+    // Pobranie danych z listy "rain" i przypisanie ich do zmiennych
+    let dates = [];
+    let rains = [];
+    
+    @foreach (var item in Model)
+    {
+        <text>
+            dates.push('@item.DateOfReading.ToString("yyyy-MM-dd HH:mm")');
+            rains.push('@item.Rain');
+        </text>
+    }
+    // Konfiguracja i generowanie wykresu liniowego przy użyciu danych z listy "rain"
+    for(let i=0;i<rains.length; i++)
+    {
+        rains[i] = rains[i].toString();
+        rains[i] = rains[i].replace(",", ".");
+        console.log(rains[i]);
+    }
+
+    let ctx = document.getElementById('myChart').getContext('2d');
+    let chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: dates, // Dane na osi OX
+            datasets: [{
+                label: 'Rain Data', // Etykieta wykresu
+                data: rains, // Dane na osi OY
+                backgroundColor: 'rgba(75, 192, 192, 0.2)', // Kolor wypełnienia wykresu
+                fill: true,
+                borderColor: 'rgba(75, 192, 192, 1)', // Kolor linii wykresu
+                tension: 0.1 // Grubość linii wykresu
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+
+    
+</script>
+
+
+<br />
 <table class="table">
     <thead>
         <tr>
-            <th>ID</th>
             <th>Rain</th>
-            <th>IntensityOfRain</th>
+            <th>Intensity Of Rain</th>
+            <th>Date &amp; Time Of Reading</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var uv in Model)
         {
                         <tr>
-                            <td>@Html.DisplayFor(modelItem => uv.Id)</td>
                             <td>@Html.DisplayFor(modelItem => uv.Rain) <b>[jednostka]</b></td>
                             <td>@Html.DisplayFor(modelItem => uv.IntensityOfRain) <b>[jednostka]</b></td>
                             <td>@Html.DisplayFor(modelItem => uv.DateOfReading)</td>
@@ -26,3 +87,5 @@
         }
     </tbody>
 </table>
+<br />
+<br />

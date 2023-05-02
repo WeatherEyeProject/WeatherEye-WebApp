@@ -6,7 +6,9 @@ namespace WeatherEye.Interfaces
     {
         List<RainSensor> GetRainSensorsList();
         RainSensor GetRainSensorById(int id);
-        
+        List<RainSensor> GetRainSensorByDate(DateTime dateOfReading);
+        List<RainSensor> GetRainSensorByPeriodDate(DateTime dateOfReadingStart, DateTime dateOfReadingEnd);
+
 
     }
 }
