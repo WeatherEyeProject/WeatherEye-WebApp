@@ -9,13 +9,15 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services
     .AddTransient<IRainSensor, RainSensorService>();
 
+builder.Services.AddTransient<ILatestSensorData, LatestSensorDataService>();
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddSwaggerGen(c =>
+/*builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "WeatherEye", Version = "v1" });
-});
+});*/
 
 var connectionString = builder.Configuration.GetConnectionString("Connection");
 
@@ -33,8 +35,8 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-app.UseSwagger();
-app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WeatherEye v1"));
+/*app.UseSwagger();
+app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WeatherEye v1"));*/
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
