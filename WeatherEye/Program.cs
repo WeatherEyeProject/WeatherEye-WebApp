@@ -10,9 +10,12 @@ builder.Services
     .AddTransient<IRainSensor, RainSensorService>();
 
 builder.Services.AddTransient<ILatestSensorData, LatestSensorDataService>();
+builder.Services.AddTransient<ISensorsDataGatherer, SensorsDataGathererService>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+
 
 /*builder.Services.AddSwaggerGen(c =>
 {
