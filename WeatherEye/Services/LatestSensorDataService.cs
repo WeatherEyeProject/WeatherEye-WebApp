@@ -12,7 +12,6 @@ namespace WeatherEye.Services
         }
         public LatestSensorsData GetLatestSensorsData()
         {
-            
             var dust = _context.DustSensors.OrderByDescending(m => m.DateOfReading).FirstOrDefault();
             var env = _context.EnvironmentalSensors.OrderByDescending(m => m.DateOfReading).FirstOrDefault();
             var light = _context.LightSensors.OrderByDescending(m => m.DateOfReading).FirstOrDefault();
