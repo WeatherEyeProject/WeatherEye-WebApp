@@ -12,28 +12,78 @@ namespace WeatherEye.Services
             _context = context;
         }
 
-        public async Task AddDataAsync(List<SensorsData> data)
+        public async Task<bool> AddDataAsync(List<SensorsData> data)
         {
-            foreach(var sensorData in data)
+            bool added = false;
+            foreach(var sensor in data)
             {
-                _context.DustSensors.Add(sensorData.dustSensor);
-                _context.EnvironmentalSensors.Add(sensorData.environmentalSensor);
-                _context.LightSensors.Add(sensorData.lightSensor);
-                _context.RainSensors.Add(sensorData.rainSensor);
-                _context.UVSensors.Add(sensorData.uvSensor);
+                if(sensor.s1.HasValue ||
+                    sensor.s2.HasValue ||
+                    sensor.s3.HasValue ||
+                    sensor.s4.HasValue)
+                {
+                    _context.EnvironmentalSensors.Add(
+                        new EnvironmentalSensor
+                        {
+                            DateOfReading = sensor.dateTime,
+                            Temperature = sensor.s1,
+                            Dampness = sensor.s2,
+                            Pressure = sensor.s3,
+                            IAQuality = sensor.s4
+                        });
+                    added = true;
+                }
+
+                if(sensor.s5.HasValue)
+                {
+                    _context.LightSensors.Add(
+                        new LightSensor
+                        {
+                            DateOfReading = sensor.dateTime,
+                            IlluminanceLux = (double)sensor.s5
+                        });
+                    added = true;
+                }
+
+                if (sensor.s6.HasValue)
+                {
+                    _context.UVSensors.Add(
+                        new UVSensor
+                        {
+                            DateOfReading = sensor.dateTime,
+                            IlluminanceUV = (double)sensor.s6
+                        });
+                    added = true;
+                }
+
+                if(sensor.s7.HasValue ||
+                    sensor.s8.HasValue)
+                {
+                    _context.DustSensors.Add(
+                        new DustSensor
+                        {
+                            DateOfReading = sensor.dateTime,
+                            IntensityPm10 = sensor.s7,
+                            IntensityPm2_5 = sensor.s8
+                        });
+                    added = true;
+                }
+
+                if(sensor.s10.HasValue ||
+                    sensor.s11.HasValue)
+                {
+                    _context.RainSensors.Add(
+                        new RainSensor 
+                        { 
+                            DateOfReading = sensor.dateTime, 
+                            IntensityOfRain = sensor.s11, 
+                            Rain = sensor.s10 
+                        });
+                    added = true;
+                }
             }
-
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task AddDataAsync(SensorsData data)
-        {
-            _context.DustSensors.Add(data.dustSensor);
-            _context.EnvironmentalSensors.Add(data.environmentalSensor);
-            _context.LightSensors.Add(data.lightSensor);
-            _context.RainSensors.Add(data.rainSensor);
-            _context.UVSensors.Add(data.uvSensor);
-            await _context.SaveChangesAsync();
+            var written = await _context.SaveChangesAsync();
+            return added && written > 0;
         }
     }
 }

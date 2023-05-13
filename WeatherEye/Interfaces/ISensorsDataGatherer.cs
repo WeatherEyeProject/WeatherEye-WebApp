@@ -4,7 +4,6 @@ namespace WeatherEye.Interfaces
 {
     public interface ISensorsDataGatherer
     {
-        Task AddDataAsync(List<SensorsData> data);
-        Task AddDataAsync(SensorsData data);
+        Task<bool> AddDataAsync(List<SensorsData> data);
     }
 }

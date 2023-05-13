@@ -19,8 +19,8 @@ namespace WeatherEye.Controllers
         [HttpPost]
         public async Task<IActionResult> PostSensorsData([FromBody] List<SensorsData> sensorsDataList)
         {
-            await _sensorsDataGatherer.AddDataAsync(sensorsDataList);
-            return Ok(sensorsDataList);
+            var res = await _sensorsDataGatherer.AddDataAsync(sensorsDataList);
+            return res ? Ok(sensorsDataList) : BadRequest(sensorsDataList);
         }
     }
 }
