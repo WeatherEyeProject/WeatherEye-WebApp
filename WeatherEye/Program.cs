@@ -11,7 +11,7 @@ builder.Services
 
 builder.Services.AddTransient<ILatestSensorData, LatestSensorDataService>();
 builder.Services.AddTransient<ISensorsDataGatherer, SensorsDataGathererService>();
-
+builder.Services.AddTransient<ISensors, SensorsDataService>();
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
