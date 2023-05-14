@@ -3,55 +3,122 @@
 }
 
 <head>
-    <link rel="stylesheet" type="text/css" href="~/css/mainSite.css"/>
-</head>
+    @*<link rel="stylesheet" type="text/css" href="~/css/mainSite.css"/>*@
+    <link rel="stylesheet" type="text/css" href="~/css/mainSitePro.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap" rel="stylesheet">
 
-<body id="mainPage">
+</head>
+<body>
+    @if (@ViewBag.Temperature.Temperature <= 0)
+    {
+        <body class="mainPage"
+          style="background: url('') no-repeat center center fixed;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;" />
+    }
+    else if (0 < @ViewBag.Temperature.Temperature && @ViewBag.Temperature.Temperature <= 15)
+    {
+        <body class="mainPage"
+          style="background: url('css/backgrounds/sun&clouds.png') no-repeat center center fixed;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;" />
+    }
+    else
+    {
+        <body class="mainPage"
+          style="background: url('css/backgrounds/sunny.png') no-repeat center center fixed;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;" />
+    }
+
+    @*Napis główny*@
     <div class="text-center">
         <h1 class="display-4">WeatherEye</h1>
         <p>Najlepsza stacja pogodowa</p>
     </div>
-    <div id="actualBlock">
-        <div id="inBlock" style="opacity:1;">
-            <p id="temperature">@ViewBag.Temperature.Temperature.ToString() *C</p>
-            <p id="rain">@ViewBag.Rain.Rain mm</p>
-            @if (0 < @ViewBag.Dust.IntensityPm2_5 && @ViewBag.Dust.IntensityPm2_5 <= 13)
-            {
-                <p id="airCondition" style="background:rgb(0, 0, 255);">@ViewBag.Dust.IntensityPm2_5 &#181/m&sup3 </p>
-            }
-            else if (13 < @ViewBag.Dust.IntensityPm2_5 && @ViewBag.Dust.IntensityPm2_5 <= 35)
-            {
-                  <p id="airCondition" style="background:rgb(0, 255, 0);">@ViewBag.Dust.IntensityPm2_5 &#181/m&sup3 </p>
 
-            }
-            else if (35 < @ViewBag.Dust.IntensityPm2_5 && @ViewBag.Dust.IntensityPm2_5 <= 55)
-            {
-                      <p id="airCondition" style="background:rgb(255, 255, 0);">@ViewBag.Dust.IntensityPm2_5 &#181/m&sup3 </p>
+    <div class="container">
+        @*Streszczone informację*@
+        <div class="mainDiv">
 
-            }
-            else if (55 < @ViewBag.Dust.IntensityPm2_5 && @ViewBag.Dust.IntensityPm2_5 <= 75)
-            {
-                <p id="airCondition" style="background:rgb(255, 0, 255);">@ViewBag.Dust.IntensityPm2_5 &#181/m&sup3 </p>
+            @*Pierwszy wiersz kafelków*@
+            <div class="rowInfoBox">
+                <div class="infoBox">
+                    <p id="temperature">@ViewBag.Temperature.Temperature.ToString() *C</p>
+                </div>
+                <div class="infoBox">
+                    <p id="rain">@ViewBag.Rain.Rain mm</p>
+                </div>
+            </div>
 
-            }
-            else if (75 < @ViewBag.Dust.IntensityPm2_5 && @ViewBag.Dust.IntensityPm2_5 <= 110)
-            {
-                      <p id="airCondition" style="background:rgb(255, 0, 0);">@ViewBag.Dust.IntensityPm2_5 &#181/m&sup3 </p>
+            @*Drugi wiersz kafelków*@
+            <div class="rowInfoBox">
+                <div class="infoBox">
+                    @if (0 < @ViewBag.Dust.IntensityPm2_5 && @ViewBag.Dust.IntensityPm2_5 <= 13)
+                    {
+                        <p id="airCondition" style="background:rgb(0, 0, 255);">@ViewBag.Dust.IntensityPm2_5 &#181/m&sup3 </p>
+                    }
+                    else if (13 < @ViewBag.Dust.IntensityPm2_5 && @ViewBag.Dust.IntensityPm2_5 <= 35)
+                    {
+                        <p id="airCondition" style="background:rgb(0, 255, 0);">@ViewBag.Dust.IntensityPm2_5 &#181/m&sup3 </p>
+                    }
+                    else if (35 < @ViewBag.Dust.IntensityPm2_5 && @ViewBag.Dust.IntensityPm2_5 <= 55)
+                    {
+                        <p id="airCondition" style="background:rgb(255, 255, 0);">@ViewBag.Dust.IntensityPm2_5 &#181/m&sup3 </p>
+                    }
+                    else if (55 < @ViewBag.Dust.IntensityPm2_5 && @ViewBag.Dust.IntensityPm2_5 <= 75)
+                    {
+                        <p id="airCondition" style="background:rgb(255, 0, 255);">@ViewBag.Dust.IntensityPm2_5 &#181/m&sup3 </p>
+                    }
+                    else if (75 < @ViewBag.Dust.IntensityPm2_5 && @ViewBag.Dust.IntensityPm2_5 <= 110)
+                    {
+                        <p id="airCondition" style="background:rgb(255, 0, 0);">@ViewBag.Dust.IntensityPm2_5 &#181/m&sup3 </p>
+                    }
+                    else if (110 < @ViewBag.Dust.IntensityPm2_5)
+                    {
+                        <p id="airCondition" style="background:rgb(100, 0, 0); color:white;">@ViewBag.Dust.IntensityPm2_5 &#181/m&sup3 </p>
+                    }
+                </div>
+                <div class="infoBox">
+                    <p id="ligth">@ViewBag.Light.IlluminanceLux UV</p>
+                </div>
+            </div>
 
-            }
-            else if (110 < @ViewBag.Dust.IntensityPm2_5)
-            {
-                <p id="airCondition" style="background:rgb(100, 0, 0); color:white;">@ViewBag.Dust.IntensityPm2_5 &#181/m&sup3 </p>
-
-            }
-            <p id="ligth">@ViewBag.Light.IlluminanceLux UV</p>
+            @*Dolny długi Kafelek*@
+            <div class="bottomBox">
+                <p>rgniohg 2</p>
+            </div>
         </div>
-@*        <div id="stats">
-            <p id="actualDate">Aktualna data: @DateTime.Now.ToString("yyyy-MM-dd")</p>
-            <p id="actualTime">Aktualna godzina: @DateTime.Now.ToString("HH:mm") </p>
-            <p id="timeOfRead">Godzina odczytów: @ViewBag.Temperature.TimeOfReading</p>
-            <p id="location">Wrocław</p>   
-        </div>*@
+
+        @*Kapibara*@
+
+        <div class="capy">
+            @if (@ViewBag.Temperature.Temperature <= 0)
+            {
+                <img src="/css/capi/snowman.png" />
+            }
+            else if (0 < @ViewBag.Temperature.Temperature && @ViewBag.Temperature.Temperature <= 15)
+            {
+                <img src="/css/capi/capy.png" />
+            }
+            else
+            {
+                <img src="/css/capi/capy_with_sunglasses.png" />
+            }
+
+        </div>
     </div>
 
+
+    @*        <div id="stats">
+    <p id="actualDate">Aktualna data: @DateTime.Now.ToString("yyyy-MM-dd")</p>
+    <p id="actualTime">Aktualna godzina: @DateTime.Now.ToString("HH:mm") </p>
+    <p id="timeOfRead">Godzina odczytów: @ViewBag.Temperature.TimeOfReading</p>
+    <p id="location">Wrocław</p>
+    </div>*@
 </body>

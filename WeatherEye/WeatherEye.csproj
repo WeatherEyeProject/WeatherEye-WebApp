@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <None Include="wwwroot\css\backgrounds\cloudy.png" />
-    <None Include="wwwroot\css\backgrounds\foggy.png" />
     <None Include="wwwroot\css\backgrounds\heavy_rain.png" />
     <None Include="wwwroot\css\backgrounds\light_rain.png" />
     <None Include="wwwroot\css\backgrounds\snowy.png" />
