@@ -6,6 +6,8 @@ using System.Text.Json.Serialization;
 using WeatherEye.Interfaces;
 using WeatherEye.Models;
 using System.Text.Json;
+using Microsoft.Extensions.Primitives;
+using System.Reflection.Metadata.Ecma335;
 
 namespace WeatherEye.Controllers
 {
@@ -27,26 +29,39 @@ namespace WeatherEye.Controllers
             return res ? Ok(sensorsDataList) : BadRequest(sensorsDataList);
         }
 
-        [HttpPost("/test")]
-        public async Task<IActionResult> PostSensorData2([FromBody] string data, [FromHeader] string authorization)
+        [HttpPost("test")]
+        public async Task<IActionResult> PostSensorData2([FromBody] List<SensorsData> sensorsDataList)
         {
-            if(!isAuthValid(data, authorization))
+            StringValues HMACSignature;
+            var hasAuth = Request.Headers.TryGetValue("Authorization", out HMACSignature);
+            if (!hasAuth || HMACSignature.FirstOrDefault() is null)
+            {
+                return BadRequest("Authorization header not provided!");
+            }
+            var body = getRequestBody(Request);
+            if(!isAuthValid(body, HMACSignature.FirstOrDefault()))
             {
                 return Unauthorized();
             }
-            List<SensorsData> models = JsonSerializer.Deserialize<List<SensorsData>>(data);
-            var res = await _sensorsDataGatherer.AddDataAsync(models);
-            return res ? Ok(models) : BadRequest();
+            var res = await _sensorsDataGatherer.AddDataAsync(sensorsDataList);
+            return res ? Ok(sensorsDataList) : BadRequest();
         }
 
-        private bool isAuthValid(string data, string auth)
+        private string getRequestBody(HttpRequest request)
         {
-            string[] headerVals = auth.Split(':');
-            if(headerVals.Length != 2 || headerVals[0] != "HMAC")
+            string data;
+            using (var stream = new StreamReader(request.BodyReader.AsStream()))
             {
-                return false;
+                data = stream.ReadToEnd();
             }
-            return headerVals[1] == calcHmac(data);
+            return data;
+        }
+    
+
+        private bool isAuthValid(string data, StringValues auth)
+        {
+            var calculated = calcHmac(data);
+            return auth.Contains(calculated);
         }
 
         private string calcHmac(string data)
