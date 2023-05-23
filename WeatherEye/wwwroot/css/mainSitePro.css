@@ -8,20 +8,23 @@
     font-family: 'Roboto Condensed', sans-serif;
     margin-top:-1%;
 }
-.container {
-    width: 100%;
-    text-align: center;
-    position:relative;
-    margin-bottom:0;
+.container1 {
+    width: 80vw;
+    top:15vh;
+    left:10vw;
+/*    text-align: center;*/
+    position: fixed;
+    margin-left:0;
+    margin-bottom: 0;
 }
 
 .mainDiv {
-    width: 37%;
-    height: 40%;
+    width: 30vw;
+    height: 75vh;
     background: linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
     opacity: 1;
     position: relative;
-    float:left;
+    float: left;
     top: 20px;
     left: 10px;
     border: 1.7px solid linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.5));
@@ -32,12 +35,12 @@
     font-size: 27px;
     color: rgba(255, 255, 255, 0.8);
     font-family: 'Roboto Condensed', sans-serif;
-    text-align:center;
+    text-align: center;
 }
 
 .bottomBox {
-    width: 86%;
-    height: 185px;
+    width: 26vw;
+    height: 20vh;
     background: rgba(108, 140, 163, 0.5);
     opacity: 1;
     text-align: center;
@@ -53,7 +56,7 @@
 
 .rowInfoBox {
     width: 100%;
-    height: 185px;
+    height: 20vh;
     display: flex;
     flex-direction: row;
     align-items: flex-start;
@@ -65,8 +68,8 @@
 
 .infoBox {
     box-sizing: border-box;
-    width: 45%;
-    height: 185px;
+    width: 30vw;
+    height: 20vh;
     background: rgba(108, 140, 163, 0.5);
     opacity: 1;
     border: 1.7px solid linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.5));
@@ -77,17 +80,18 @@
 }
 
 .capy {
-    width: 40%;
-    height: 658px;
+    width: 40vw;
     float: right;
+    margin-top:10vh;
     display: grid;
+    bottom:9vh;
   
 }
 .capy img{
     width:70%;
     height:auto;
-    margin-bottom:-5%;
+    margin-bottom:10vh;
     margin-left:10%;
-    bottom: 0;
+    bottom: -10vh;
     align-self:end;
 }

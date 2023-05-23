@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Globalization;
-using System.Text.RegularExpressions;
+using Microsoft.EntityFrameworkCore;
 using WeatherEye.Models;
 
 namespace WeatherEye.Controllers
@@ -57,8 +56,26 @@ namespace WeatherEye.Controllers
 
         public IActionResult UVSensorView()
         {
-            var uv = _context.UVSensors
+            List<UVSensor> uv = _context.UVSensors
+                .GroupBy(x => x.DateOfReading.Date)
+                .Select(group => new UVSensor
+                {
+                    DateOfReading = group.Key,
+                    IlluminanceUV = group.Average(x => x.IlluminanceUV)
+                })
                 .ToList();
+            return View(uv);
+        }
+
+        public IActionResult UVSensorDetails( DateTime date )
+        {
+            var uv = _context.UVSensors
+                .Where(x => x.DateOfReading.Date == date.Date)
+                .FirstOrDefault();
+            if ( uv == null)
+            {
+                return NotFound();
+            }
             return View(uv);
         }
 

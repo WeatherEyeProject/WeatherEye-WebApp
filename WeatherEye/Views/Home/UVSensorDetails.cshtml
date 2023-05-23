@@ -1,8 +1,7 @@
-﻿@model IEnumerable<WeatherEye.Models.UVSensor>
+﻿@model WeatherEye.Models.UVSensor
 
 @{
-    ViewData["Title"] = "UV Sensor";
-    
+    ViewData["Title"] = "Szczegóły";
 }
 <head>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -10,34 +9,34 @@
 </head>
 
 <h2>Odczyty z czujnika UV</h2>
+<h1>Szczegóły dnia @Model.DateOfReading.ToString("yyyy-MM-dd")</h1>
 
 <div>
     <canvas id="myChart"></canvas>
 </div>
-<div id="values"></div>
+</br>
+<div id="outputDiv"></div>
 
 <script>
     let dates = [];
-    let uv = []; 
-    fetch('/api/sensors/S6')
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Error fetching data from API');
-        }
-        //console.log(response);
-    return response.json();
-    })
-    .then(data => {
-        data.forEach(item => {
-            dates.push(item.date);
-            uv.push(item.value);
+    let uv = [];
+    fetch('/api/sensors/S6/@Model.DateOfReading.ToString("yyyy-MM-dd")/@Model.DateOfReading.ToString("yyyy-MM-dd")')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Error fetching data from API');
+            }
+            //console.log(response);
+            return response.json();
         })
-
-    })
+        .then(data => {
+            data.forEach(item => {
+                dates.push(item.date);
+                uv.push(item.value);
+            })
+        })
         .catch(error => {
             console.error('Error fetching data:', error);
         });
-
 
     console.log(dates);
     console.log(uv);
@@ -68,24 +67,4 @@
 
 </script>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Natężenie światła UV</th>
-            <th>Data Odczytu</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var uv in Model)
-        {
-                <tr>
-                <td>@Math.Round(Convert.ToDouble(uv.IlluminanceUV),2)<b>UVI</b></td>
-                <td>@uv.DateOfReading.ToString("yyyy-MM-dd")</td>
-                <td>
-                    @Html.ActionLink("Szczegóły dnia", "UVSensorDetails", new{date = uv.DateOfReading.ToString("yyyy-MM-dd")})
-                </td>
-                </tr>
-        }
-    </tbody>
-</table>
+<a asp-action="UVSensorView">Powrót</a>

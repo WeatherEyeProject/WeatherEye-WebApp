@@ -9,7 +9,6 @@
 <table class="table">
     <thead>
         <tr>
-            <th>ID</th>
             <th>IntensityPm2_5</th>
             <th>IntensityPm10</th>
             <th>Data Odczytu</th>
@@ -19,9 +18,8 @@
         @foreach (var uv in Model)
         {
             <tr>
-                <td>@Html.DisplayFor(modelItem => uv.Id)</td>
-                <td>@Html.DisplayFor(modelItem => uv.IntensityPm2_5) <b>[jednostka]</b></td>
-                <td>@Html.DisplayFor(modelItem => uv.IntensityPm10) <b>[jednostka]</b></td>
+                <td>@Html.DisplayFor(modelItem => uv.IntensityPm2_5) <b>&micro;G/m<sup>3</sup></b></td>
+                <td>@Html.DisplayFor(modelItem => uv.IntensityPm10) <b>&micro;G/m<sup>3</sup></b></td>
                 <td>@Html.DisplayFor(modelItem => uv.DateOfReading)</td>
             </tr>
         }

@@ -3,14 +3,103 @@
 @{
     ViewData["Title"] = "EnvironmentalSensor";
 }
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js/dist/Chart.min.css">
+</head>
+
+<h2>Odczyty z czujnika Deszczu </h2>
+
+<div>
+    <canvas id="myChart"></canvas>
+</div>
+<div id="values"></div>
+
+<script>
+    let dates = [];
+    let humidity = [];
+    let temperature = [];
+    let pressure = [];
+
+    @foreach (var item in Model)
+    {
+        <text>
+            dates.push('@item.DateOfReading.ToString("yyyy-MM-dd HH:mm")');
+            humidity.push('@item.Dampness');
+            temperature.push('@item.Temperature');
+            pressure.push('@item.Pressure');
+        </text>
+    }
+
+        for (let i = 0; i < humidity.length; i++) {
+        humidity[i] = humidity[i].toString();
+        humidity[i] = humidity[i].replace(",", ".");
+        console.log(humidity[i]);
+    }
+
+    for (let i = 0; i < temperature.length; i++) {
+        temperature[i] = temperature[i].toString();
+        temperature[i] = temperature[i].replace(",", ".");
+        console.log(temperature[i]);
+    }
+
+    for (let i = 0; i < pressure.length; i++) {
+        pressure[i] = pressure[i].toString();
+        pressure[i] = pressure[i].replace(",", ".");
+        console.log(pressure[i]);
+    }
+
+    let ctx = document.getElementById('myChart').getContext('2d');
+
+    let chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: dates, // Dane na osi OX
+            datasets: [{
+                label: 'Humidity Data', // Etykieta wykresu
+                data: humidity, // Dane na osi OY
+                backgroundColor: 'rgba(75, 192, 192, 0.2)', // Kolor wypełnienia wykresu
+                fill: true,
+                borderColor: 'rgba(75, 192, 192, 1)', // Kolor linii wykresu
+                tension: 0.1 // Grubość linii wykresu
+            },
+            {
+                label: 'Temperature Data', // Etykieta wykresu
+                data: temperature, // Dane na osi OY
+                backgroundColor: 'rgba(192, 192, 192, 0.2)', // Kolor wypełnienia wykresu
+                fill: true,
+                borderColor: 'rgba(192, 192, 192, 1)', // Kolor linii wykresu
+                tension: 0.1 // Grubość linii wykresu
+            },
+            {
+                label: 'Pressure Data', // Etykieta wykresu
+                data: pressure, // Dane na osi OY
+                backgroundColor: 'rgba(139, 0, 0, 0.2)', // Kolor wypełnienia wykresu
+                fill: true,
+                borderColor: 'rgba(19, 0, 0, 1)', // Kolor linii wykresu
+                tension: 0.1 // Grubość linii wykresu
+            }
+            ]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+</script>
+
 
 <h2>Odczyty z czujnika środowiska </h2>
 
 <table class="table">
     <thead>
         <tr>
-            <th>ID</th>
-            <th>Dampness</th>
+            <th>Humidity</th>
             <th>Temperature</th>
             <th>Pressure</th>
             <th>IAQuality</th>
@@ -20,14 +109,13 @@
     <tbody>
         @foreach (var uv in Model)
         {
-                <tr>
-                    <td>@Html.DisplayFor(modelItem => uv.Id)</td>
-                    <td>@Html.DisplayFor(modelItem => uv.Dampness) <b>[jednostka]</b></td>
-                    <td>@Html.DisplayFor(modelItem => uv.Temperature) <b>[jednostka]</b></td>
-                    <td>@Html.DisplayFor(modelItem => uv.Pressure) <b>[jednostka]</b></td>
-                    <td>@Html.DisplayFor(modelItem => uv.IAQuality) <b>[jednostka]</b></td>
-                    <td>@Html.DisplayFor(modelItem => uv.DateOfReading)</td>
-                </tr>
+            <tr>
+                <td>@Html.DisplayFor(modelItem => uv.Dampness) <b>%</b></td>
+                <td>@Html.DisplayFor(modelItem => uv.Temperature) <b>&deg;C</b></td>
+                <td>@Html.DisplayFor(modelItem => uv.Pressure) <b>hPa</b></td>
+                <td>@Html.DisplayFor(modelItem => uv.IAQuality) <b>IAQ</b></td>
+                <td>@Html.DisplayFor(modelItem => uv.DateOfReading)</td>
+            </tr>
         }
     </tbody>
 </table>
