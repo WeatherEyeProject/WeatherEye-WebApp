@@ -4,6 +4,71 @@
     ViewData["Title"] = "LightSensor";
 }
 
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js/dist/Chart.min.css">
+</head>
+
+<h2>Wykres dla danych z czujnika Światła </h2>
+
+
+<div>
+    <canvas id="lightChart"></canvas>
+</div>
+
+<script>
+    let dates = [];
+    let illuminanceLux = [];
+
+
+    @foreach (var item in Model)
+    {
+        <text>
+        dates.push('@item.DateOfReading.ToString("yyyy-MM-dd HH:mm")');
+        illuminanceLux.push('@item.IlluminanceLux');
+        </text>
+    }
+
+    for (let i = 0; i < illuminanceLux.length; i++) {
+        illuminanceLux[i] = illuminanceLux[i].toString();
+        illuminanceLux[i] = illuminanceLux[i].replace(",", ".");
+    }
+
+    let ctx = document.getElementById('lightChart').getContext('2d');
+
+    let chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: dates, // Dane na osi OX
+            datasets: [{
+                label: 'Illuminance Data', // Etykieta wykresu
+                data: illuminanceLux, // Dane na osi OY
+                backgroundColor: 'rgba(75, 192, 192, 0.2)', // Kolor wypełnienia wykresu
+                fill: true,
+                borderColor: 'rgba(75, 192, 192, 1)', // Kolor linii wykresu
+                tension: 0.1, // Grubość linii wykresu
+                yAxisID: 'y',
+            }
+            ]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    type: 'linear',
+                    position: 'left',
+                    title: {
+                        display: 'true',
+                        text: 'Oś dla danych PM2.5',
+                    },
+                }
+            }
+        }
+    });
+
+
+</script>
+
 <h2>Odczyty z czujnika światła </h2>
 
 <table class="table">
@@ -17,7 +82,7 @@
         @foreach (var uv in Model)
         {
                     <tr>
-                        <td>@Html.DisplayFor(modelItem => uv.IlluminanceLux) <b>Lux</b></td>
+                        <td>@Html.DisplayFor(modelItem => uv.IlluminanceLux)Lux</td>
                         <td>@Html.DisplayFor(modelItem => uv.DateOfReading)</td>
                     </tr>
         }

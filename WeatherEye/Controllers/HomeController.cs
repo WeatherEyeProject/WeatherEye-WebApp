@@ -7,6 +7,7 @@ namespace WeatherEye.Controllers
     public class HomeController : Controller
     {
         private readonly DataContext _context;
+        
 
         public HomeController(DataContext context)
         {
@@ -18,12 +19,6 @@ namespace WeatherEye.Controllers
             var dusts = _context.DustSensors
                 .ToList();
             return View(dusts);
-        }
-        public IActionResult ChartRain()
-        {
-            var rain = _context.RainSensors
-                .ToList();
-            return View(rain);
         }
 
         public ActionResult LineChart() 

@@ -8,12 +8,11 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js/dist/Chart.min.css">
 </head>
 
-<h2>Odczyty z czujnika Deszczu </h2>
+<h2>Wykres dla danych z czujnika Środowiska </h2>
 
 <div>
-    <canvas id="myChart"></canvas>
+    <canvas id="enviChart"></canvas>
 </div>
-<div id="values"></div>
 
 <script>
     let dates = [];
@@ -34,22 +33,19 @@
         for (let i = 0; i < humidity.length; i++) {
         humidity[i] = humidity[i].toString();
         humidity[i] = humidity[i].replace(",", ".");
-        console.log(humidity[i]);
     }
 
     for (let i = 0; i < temperature.length; i++) {
         temperature[i] = temperature[i].toString();
         temperature[i] = temperature[i].replace(",", ".");
-        console.log(temperature[i]);
     }
 
     for (let i = 0; i < pressure.length; i++) {
         pressure[i] = pressure[i].toString();
         pressure[i] = pressure[i].replace(",", ".");
-        console.log(pressure[i]);
     }
 
-    let ctx = document.getElementById('myChart').getContext('2d');
+    let ctx = document.getElementById('enviChart').getContext('2d');
 
     let chart = new Chart(ctx, {
         type: 'line',
@@ -61,7 +57,8 @@
                 backgroundColor: 'rgba(75, 192, 192, 0.2)', // Kolor wypełnienia wykresu
                 fill: true,
                 borderColor: 'rgba(75, 192, 192, 1)', // Kolor linii wykresu
-                tension: 0.1 // Grubość linii wykresu
+                tension: 0.1, // Grubość linii wykresu
+                yAxisID: 'y',
             },
             {
                 label: 'Temperature Data', // Etykieta wykresu
@@ -69,7 +66,8 @@
                 backgroundColor: 'rgba(192, 192, 192, 0.2)', // Kolor wypełnienia wykresu
                 fill: true,
                 borderColor: 'rgba(192, 192, 192, 1)', // Kolor linii wykresu
-                tension: 0.1 // Grubość linii wykresu
+                tension: 0.1, // Grubość linii wykresu
+                yAxisID: 'y',
             },
             {
                 label: 'Pressure Data', // Etykieta wykresu
@@ -77,7 +75,8 @@
                 backgroundColor: 'rgba(139, 0, 0, 0.2)', // Kolor wypełnienia wykresu
                 fill: true,
                 borderColor: 'rgba(19, 0, 0, 1)', // Kolor linii wykresu
-                tension: 0.1 // Grubość linii wykresu
+                tension: 0.1, // Grubość linii wykresu
+                yAxisID: 'y1',
             }
             ]
         },
@@ -85,7 +84,20 @@
             responsive: true,
             scales: {
                 y: {
-                    beginAtZero: true
+                    type: 'linear',
+                    position: 'left',
+                    title: {
+                        display: 'true',
+                        text: 'Oś dla temperatury i wilgoci',
+                    },
+                },
+                y1: {
+                    type: 'linear',
+                    position: 'right',
+                    title: {
+                        display: 'true',
+                        text: 'Oś dla ciśnienia',
+                    },
                 }
             }
         }
@@ -110,10 +122,10 @@
         @foreach (var uv in Model)
         {
             <tr>
-                <td>@Html.DisplayFor(modelItem => uv.Dampness) <b>%</b></td>
-                <td>@Html.DisplayFor(modelItem => uv.Temperature) <b>&deg;C</b></td>
-                <td>@Html.DisplayFor(modelItem => uv.Pressure) <b>hPa</b></td>
-                <td>@Html.DisplayFor(modelItem => uv.IAQuality) <b>IAQ</b></td>
+                <td>@Html.DisplayFor(modelItem => uv.Dampness)%</td>
+                <td>@Html.DisplayFor(modelItem => uv.Temperature)&deg;C</td>
+                <td>@Html.DisplayFor(modelItem => uv.Pressure)hPa</td>
+                <td>@Html.DisplayFor(modelItem => uv.IAQuality) IAQ</td>
                 <td>@Html.DisplayFor(modelItem => uv.DateOfReading)</td>
             </tr>
         }

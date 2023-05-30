@@ -15,7 +15,9 @@
     <canvas id="myChart"></canvas>
 </div>
 </br>
-<div id="outputDiv"></div>
+<b>Dane:</b>
+<br />
+<div id="outputTableDiv"></div>
 
 <script>
     let dates = [];
@@ -38,21 +40,18 @@
             console.error('Error fetching data:', error);
         });
 
-    console.log(dates);
-    console.log(uv);
-
     let ctx = document.getElementById('myChart').getContext('2d');
     let chart = new Chart(ctx, {
         type: 'line',
         data: {
-            labels: dates, // Dane na osi OX
+            labels: dates, // dane na osi OX
             datasets: [{
-                label: 'IlluminanceUV Data', // Etykieta wykresu
-                data: uv, // Dane na osi OY
-                backgroundColor: 'rgba(75, 192, 192, 0.2)', // Kolor wypełnienia wykresu
+                label: 'IlluminanceUV Data', // etykieta wykresu
+                data: uv, // dane na osi OY
+                backgroundColor: 'rgba(75, 192, 192, 0.2)', // kolor wypełnienia wykresu
                 fill: true,
-                borderColor: 'rgba(75, 192, 192, 1)', // Kolor linii wykresu
-                tension: 0.1 // Grubość linii wykresu
+                borderColor: 'rgba(75, 192, 192, 1)', // kolor linii wykresu
+                tension: 0.1 // grubość linii wykresu
             }]
         },
         options: {
@@ -65,6 +64,23 @@
         }
     });
 
+    //console.log(dates);
+    //console.log(uv);
+
+    //let tableContent = "<table>";
+    //tableContent += "<tr><th>Data</tv> <th>Wartość odczytu</th></tr>";
+    //for (let i = 0; i < dates.length; i++) {
+    //    tableContent += "<tr>";
+    //    tableContent += "<td>" + 1 + "</td>";
+    //    tableContent += "<td>" + 2 + "</td>";
+    //    tableContent += "</tr>";
+    //}
+    //tableContent += "</table>";
+
+    //document.getElementById("outputTableDiv").innerHTML = tableContent;
 </script>
 
-<a asp-action="UVSensorView">Powrót</a>
+
+<a asp-action="UVSensorView" class="btn btn-primary">Powrót</a>
+<br />
+<br />
