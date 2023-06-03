@@ -1,0 +1,48 @@
+﻿#temperature {
+    font-size: 6.5vh;
+    margin-bottom:-1.5vh;
+}
+#location {
+    font-size: 3.5vh;
+    margin-bottom: -0.2vh;
+}
+#currDate {
+    font-size: 2.5vh;
+}
+#temperature, #location, #currDate, #pressure, #rain, #intensity, #slider, #uvi, airCondition, airCondition1 {
+    position: relative;
+}
+
+#rain{
+    font-size:3.5vh;
+    margin:10%;
+
+}
+#rain img{
+    width:35%;
+    margin-right:10%;
+}
+
+#pressure {
+    font-size: 4.5vh;
+    margin-top: -0.5vh;
+}
+
+#intensity {
+    font-size: 3vh;
+    margin-bottom:1vh;
+    margin-top:1vh;
+}
+#slider{
+    margin-bottom:1vh;
+}
+#uvi {
+    font-size: 4vh;
+}
+
+#airCondition {
+    margin-bottom:1vh;
+}
+#airCondition, #airCondition1 {
+    font-size: 2.5vh;
+}

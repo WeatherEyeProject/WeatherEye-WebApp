@@ -1,20 +1,30 @@
-﻿.mainPage {
-    background-size: cover;
-    height: 100%;
-    margin: 0;
+﻿.text-center {
+    font-family: 'Roboto Condensed', sans-serif;
+    position:fixed;
+
 }
 
-.text-center {
-    font-family: 'Roboto Condensed', sans-serif;
-    margin-top:-1%;
+#title {
+    position: fixed;
+    top: 8vh;
+    left: 42.5vw;
+    font-size: 7.5vh;
 }
+
+#subtitle {
+    position: fixed;
+    top: 18vh;
+    left:45vw;
+    font-size: 2.5vh;
+}
+
 .container1 {
     width: 80vw;
-    top:15vh;
-    left:10vw;
-/*    text-align: center;*/
+    top: 15vh;
+    left: 10vw;
+    /*    text-align: center;*/
     position: fixed;
-    margin-left:0;
+    margin-left: 0;
     margin-bottom: 0;
 }
 
@@ -28,7 +38,7 @@
     top: 20px;
     left: 10px;
     border: 1.7px solid linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.5));
-    border-radius: 52px;
+    border-radius: 13%/10%;
     overflow: hidden;
     box-shadow: -1.7px 3.4px 22.2px -1.7px rgba(51, 54, 63, 0.28);
     backdrop-filter: blur(17.1px);
@@ -48,11 +58,10 @@
     margin-bottom: 5%;
     display: inline-block;
     border: 1.7px solid linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.5));
-    border-radius: 52px;
+    border-radius: 8%/25%;
     box-shadow: -1.70667px 3.41333px 22.1867px rgba(51, 54, 63, 0.28);
     backdrop-filter: blur(17.0667px);
 }
-
 
 .rowInfoBox {
     width: 100%;
@@ -73,7 +82,7 @@
     background: rgba(108, 140, 163, 0.5);
     opacity: 1;
     border: 1.7px solid linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.5));
-    border-radius: 52px;
+    border-radius: 20%/20%;
     overflow: hidden;
     box-shadow: -1.70667px 3.41333px 22.1867px rgba(51, 54, 63, 0.28);
     backdrop-filter: blur(17.0667px);    
@@ -87,6 +96,7 @@
     bottom:9vh;
   
 }
+
 .capy img{
     width:70%;
     height:auto;
