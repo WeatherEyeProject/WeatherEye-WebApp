@@ -75,11 +75,15 @@
                     @if (0 < @ViewBag.Dust.IntensityPm2_5 && @ViewBag.Dust.IntensityPm2_5 <= 13)
                     {
                         <img src="~/css/icons/nice.png" style="width:10%;"/>
+                        <span>@ViewBag.Environmental.IAQuality</span>
                         <p id="airCondition" style="background:rgb(0, 0, 255);">@ViewBag.Dust.IntensityPm2_5 &#181/m&sup3 </p>
                     }
                     else if (13 < @ViewBag.Dust.IntensityPm2_5 && @ViewBag.Dust.IntensityPm2_5 <= 35)
                     {
-                        <img src="~/css/icons/ok.png" style="width:25%; text-align:left; margin:10%; margin-left:-35%" />
+                        <div id="iaq">
+                            <img src="~/css/icons/ok.png"/>
+                            <span>IAQ<p>@ViewBag.Environmental.IAQuality</p></span>
+                        </div>
                         <p id="airCondition" >PM2.5: @ViewBag.Dust.IntensityPm2_5 &#181/m&sup3 </p>
                         <p id="airCondition1" style="margin-top:-5%;">PM10: @ViewBag.Dust.IntensityPm10 &#181/m&sup3 </p>
 
@@ -106,7 +110,53 @@
 
             @*Dolny długi Kafelek*@
             <div class="bottomBox">
-                <p>Historia z ostatnich dni</p>
+                <div class="topDiv">
+                    <div class="fifth">
+                        <div>@DateTime.Now.AddDays(-4).ToString("dd.MM")</div>
+                        <div class="tempBox">16&deg;C</div>
+                        <div>@DateTime.Now.AddDays(-4).ToString("ddd", new System.Globalization.CultureInfo("en-US"))</div>
+                    </div>
+                    <div class="fourth">
+                        <div>@DateTime.Now.AddDays(-3).ToString("dd.MM")</div>
+                        <div class="tempBox">17&deg;C</div>
+                        <div>@DateTime.Now.AddDays(-3).ToString("ddd", new System.Globalization.CultureInfo("en-US"))</div>
+                    </div>
+                    <div class="third">
+                        <div>@DateTime.Now.AddDays(-2).ToString("dd.MM")</div>
+                        <div class="tempBox">18&deg;C</div>
+                        <div>@DateTime.Now.AddDays(-2).ToString("ddd", new System.Globalization.CultureInfo("en-US"))</div>
+                    </div>
+                    <div class="second">
+                        <div>@DateTime.Now.AddDays(-1).ToString("dd.MM")</div>
+                        <div class="tempBox">19&deg;C</div>
+                        <div>@DateTime.Now.AddDays(-1).ToString("ddd", new System.Globalization.CultureInfo("en-US"))</div>
+                    </div>
+                    <div class="first">
+                        <div>@DateTime.Now.ToString("dd.MM")</div>
+                        <div class="tempBox">20&deg;C</div>
+                        <div>@DateTime.Now.ToString("ddd", new System.Globalization.CultureInfo("en-US"))</div>
+                    </div>
+                    <div class="longArrow">
+                        <img src="~/css/icons/long_arrow.png"/>
+                    </div>
+                    <div class="botIcons">
+                        <span class="fifthIcon">
+                            <img src="~/css/icons/cloudy_icon.png"/>
+                        </span>
+                        <span class="fourthIcon">
+                            <img src="~/css/icons/rain_icon.png" />
+                        </span>
+                        <span class="thirdIcon">
+                            <img src="~/css/icons/sunny_icon.png" />
+                        </span>
+                        <span class="secondIcon">
+                            <img src="~/css/icons/normal_icon.png" />
+                        </span>
+                        <span class="firstIcon">
+                            <img src="~/css/icons/heavyRain_icon.png" />
+                        </span>
+                    </div>
+                </div>               
             </div>
         </div>
 

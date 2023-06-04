@@ -37,7 +37,26 @@
     margin-bottom:1vh;
 }
 #uvi {
-    font-size: 4vh;
+    font-size: 3vh;
+}
+#iaq{
+    font-size:3.3vh;
+    margin-left:3vw;
+    position:relative;
+}
+
+#iaq img {
+    width: 40%;
+    margin-top:10%;
+    margin-left: -35%;
+    margin-right:20%;
+}
+
+#iaq p{
+    margin-top:-3.5vh;
+    margin-bottom:-0.4vh;
+    font-size:4vh;
+    margin-left:3vw;
 }
 
 #airCondition {
@@ -45,4 +64,31 @@
 }
 #airCondition, #airCondition1 {
     font-size: 2.5vh;
+}
+.topDiv {
+    position: relative;
+    font-size: 2vh;
+    margin-top:1vh;
+}
+.tempBox {
+    font-size: 3vh;
+    margin-top:-0.5vh;
+    margin-bottom:-0.5vh;
+}
+.first, .second, .third, .fourth, .fifth {
+    display: inline-block;
+    position: relative;
+    margin-right:1.17vw;
+}
+.longArrow img{
+    width:86%;
+    margin-left:-4%;
+}
+.botIcons{
+    margin-right:-0.8vw;
+}
+.fifthIcon img, .fourthIcon img, .thirdIcon img, .secondIcon img, .firstIcon img {
+    height:4vh;   
+    position: relative;
+    margin-right: 1.75vw;
 }
