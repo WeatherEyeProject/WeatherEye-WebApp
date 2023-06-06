@@ -9,9 +9,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services
     .AddTransient<IRainSensor, RainSensorService>();
 
-builder.Services.AddTransient<ILatestSensorData, LatestSensorDataService>();
+
 builder.Services.AddTransient<ISensorsDataGatherer, SensorsDataGathererService>();
+builder.Services.AddTransient<ILatestSensorData, LatestSensorDataService>();
 builder.Services.AddTransient<ISensors, SensorsDataService>();
+builder.Services.AddTransient<IHMACAuthorization, HMACAuthorizadtionService>();
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
@@ -39,7 +41,7 @@ if (!app.Environment.IsDevelopment())
 //app.UseSwagger();
 //app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WeatherEye v1"));
 
-//app.UseHttpsRedirection();
+app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
