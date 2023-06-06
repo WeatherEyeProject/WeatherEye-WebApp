@@ -7,6 +7,7 @@ namespace WeatherEye.Controllers
     public class HomeController : Controller
     {
         private readonly DataContext _context;
+        
 
         public HomeController(DataContext context)
         {
@@ -18,12 +19,6 @@ namespace WeatherEye.Controllers
             var dusts = _context.DustSensors
                 .ToList();
             return View(dusts);
-        }
-        public IActionResult ChartRain()
-        {
-            var rain = _context.RainSensors
-                .ToList();
-            return View(rain);
         }
 
         public ActionResult LineChart() 
@@ -81,21 +76,21 @@ namespace WeatherEye.Controllers
 
         public IActionResult Index()
         {
-            var temperature = _context.EnvironmentalSensors
+            var environmental = _context.EnvironmentalSensors
                 .OrderBy(x => x.Id)
                 .LastOrDefault();
             var dust = _context.DustSensors
                 .OrderBy (x => x.Id)
                 .LastOrDefault();
-            var light = _context.LightSensors
+            var uv = _context.UVSensors
                 .OrderBy(x => x.Id)
                 .LastOrDefault();
             var rain = _context.RainSensors
                 .OrderBy(x => x.Id)
                 .LastOrDefault();
-            ViewBag.Temperature = temperature;
+            ViewBag.Environmental = environmental;
             ViewBag.Dust = dust;
-            ViewBag.Light = light;
+            ViewBag.UV = uv;
             ViewBag.Rain = rain;
             return View();
         }

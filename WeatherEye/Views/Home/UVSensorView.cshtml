@@ -8,8 +8,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js/dist/Chart.min.css">
 </head>
-
-<h2>Odczyty z czujnika UV</h2>
+<h2>Wykres dla danych z czujnika UV</h2>
 
 <div>
     <canvas id="myChart"></canvas>
@@ -19,25 +18,37 @@
 <script>
     let dates = [];
     let uv = []; 
-    fetch('/api/sensors/S6')
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Error fetching data from API');
-        }
-        //console.log(response);
-    return response.json();
-    })
-    .then(data => {
-        data.forEach(item => {
-            dates.push(item.date);
-            uv.push(item.value);
-        })
+    //fetch('/api/sensors/S6')
+    //.then(response => {
+    //    if (!response.ok) {
+    //        throw new Error('Error fetching data from API');
+    //    }
+    //    //console.log(response);
+    //return response.json();
+    //})
+    //.then(data => {
+    //    data.forEach(item => {
+    //        dates.push(item.date);
+    //        uv.push(item.value);
+    //    })
 
-    })
-        .catch(error => {
-            console.error('Error fetching data:', error);
-        });
+    //})
+    //    .catch(error => {
+    //        console.error('Error fetching data:', error);
+    //    });
 
+    @foreach (var item in Model)
+    {
+        <text>
+            dates.push('@item.DateOfReading.ToString("yyyy-MM-dd HH:mm")');
+            uv.push('@item.IlluminanceUV');
+        </text>
+    }
+
+    for(let i=0; i<uv.length; i++){
+        uv[i]=uv[i].toString();
+        uv[i]=uv[i].replace(",",".");
+    }
 
     console.log(dates);
     console.log(uv);
@@ -68,6 +79,10 @@
 
 </script>
 
+<br />
+
+<h2>Odczyty z czujnika UV</h2>
+
 <table class="table">
     <thead>
         <tr>
@@ -80,10 +95,10 @@
         @foreach (var uv in Model)
         {
                 <tr>
-                <td>@Math.Round(Convert.ToDouble(uv.IlluminanceUV),2)<b>UVI</b></td>
+                <td>@Math.Round(Convert.ToDouble(uv.IlluminanceUV),2)UVI</td>
                 <td>@uv.DateOfReading.ToString("yyyy-MM-dd")</td>
                 <td>
-                    @Html.ActionLink("Szczegóły dnia", "UVSensorDetails", new{date = uv.DateOfReading.ToString("yyyy-MM-dd")})
+                    <a href="@Url.Action("UVSensorDetails", new { date = uv.DateOfReading.ToString("yyyy-MM-dd") })" class="btn btn-outline-dark">Szczegóły dnia</a>
                 </td>
                 </tr>
         }
