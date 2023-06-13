@@ -61,21 +61,21 @@
                 yAxisID: 'y',
             },
             {
-                label: 'Temperature Data', // Etykieta wykresu
-                data: temperature, // Dane na osi OY
-                backgroundColor: 'rgba(192, 192, 192, 0.2)', // Kolor wypełnienia wykresu
+                label: 'Temperature Data',
+                data: temperature,
+                backgroundColor: 'rgba(192, 192, 192, 0.2)',
                 fill: true,
-                borderColor: 'rgba(192, 192, 192, 1)', // Kolor linii wykresu
-                tension: 0.1, // Grubość linii wykresu
+                borderColor: 'rgba(192, 192, 192, 1)',
+                tension: 0.1,
                 yAxisID: 'y',
             },
             {
-                label: 'Pressure Data', // Etykieta wykresu
-                data: pressure, // Dane na osi OY
-                backgroundColor: 'rgba(139, 0, 0, 0.2)', // Kolor wypełnienia wykresu
+                label: 'Pressure Data', 
+                data: pressure,
+                backgroundColor: 'rgba(139, 0, 0, 0.2)',
                 fill: true,
-                borderColor: 'rgba(19, 0, 0, 1)', // Kolor linii wykresu
-                tension: 0.1, // Grubość linii wykresu
+                borderColor: 'rgba(19, 0, 0, 1)', 
+                tension: 0.1,
                 yAxisID: 'y1',
             }
             ]
@@ -89,6 +89,9 @@
                     title: {
                         display: 'true',
                         text: 'Oś dla temperatury i wilgoci',
+                        font: {
+                            size: 30
+                        }
                     },
                 },
                 y1: {
@@ -97,6 +100,9 @@
                     title: {
                         display: 'true',
                         text: 'Oś dla ciśnienia',
+                        font: {
+                            size: 30
+                        }
                     },
                 }
             }

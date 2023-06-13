@@ -56,12 +56,12 @@
                 yAxisID: 'y',
             },
             {
-                label: 'PM10 Data', // Etykieta wykresu
-                data: intensityPm10, // Dane na osi OY
-                backgroundColor: 'rgba(192, 192, 192, 0.2)', // Kolor wypełnienia wykresu
-                fill: true,
-                borderColor: 'rgba(192, 192, 192, 1)', // Kolor linii wykresu
-                tension: 0.1, // Grubość linii wykresu
+                label: 'PM10 Data',
+                data: intensityPm10, 
+                backgroundColor: 'rgba(139, 0, 0, 0.2)',
+                    fill: true,
+                borderColor: 'rgba(139, 0, 0, 0.2)',
+                tension: 0.1, 
                 yAxisID: 'y1',
             }
             ]
@@ -75,6 +75,9 @@
                     title: {
                         display: 'true',
                         text: 'Oś dla danych PM2.5',
+                        font: {
+                            size: 30
+                        }
                     },
                 },
                 y1: {
@@ -83,6 +86,9 @@
                     title: {
                         display: 'true',
                         text: 'Oś dla danych PM10',
+                        font: {
+                            size: 30
+                        }
                     },
                 }
             }

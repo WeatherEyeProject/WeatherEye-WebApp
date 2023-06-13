@@ -72,38 +72,37 @@
                 </div>
                 @*Dust sensor Box*@
                 <div class="infoBox">
-                    @if (0 < @ViewBag.Dust.IntensityPm2_5 && @ViewBag.Dust.IntensityPm2_5 <= 13)
-                    {
-                        <img src="~/css/icons/nice.png" style="width:10%;"/>
-                        <span>@ViewBag.Environmental.IAQuality</span>
-                        <p id="airCondition" style="background:rgb(0, 0, 255);">@ViewBag.Dust.IntensityPm2_5 &#181/m&sup3 </p>
-                    }
-                    else if (13 < @ViewBag.Dust.IntensityPm2_5 && @ViewBag.Dust.IntensityPm2_5 <= 35)
-                    {
-                        <div id="iaq">
-                            <img src="~/css/icons/ok.png"/>
-                            <span>IAQ<p>@ViewBag.Environmental.IAQuality</p></span>
-                        </div>
-                        <p id="airCondition" >PM2.5: @ViewBag.Dust.IntensityPm2_5 &#181/m&sup3 </p>
-                        <p id="airCondition1" style="margin-top:-5%;">PM10: @ViewBag.Dust.IntensityPm10 &#181/m&sup3 </p>
-
-                    }
-                    else if (35 < @ViewBag.Dust.IntensityPm2_5 && @ViewBag.Dust.IntensityPm2_5 <= 55)
-                    {
-                        <p id="airCondition" style="background:rgb(255, 255, 0);">@ViewBag.Dust.IntensityPm2_5 &#181/m&sup3 </p>
-                    }
-                    else if (55 < @ViewBag.Dust.IntensityPm2_5 && @ViewBag.Dust.IntensityPm2_5 <= 75)
-                    {
-                        <p id="airCondition" style="background:rgb(255, 0, 255);">@ViewBag.Dust.IntensityPm2_5 &#181/m&sup3 </p>
-                    }
-                    else if (75 < @ViewBag.Dust.IntensityPm2_5 && @ViewBag.Dust.IntensityPm2_5 <= 110)
-                    {
-                        <p id="airCondition" style="background:rgb(255, 0, 0);">@ViewBag.Dust.IntensityPm2_5 &#181/m&sup3 </p>
-                    }
-                    else if (110 < @ViewBag.Dust.IntensityPm2_5)
-                    {
-                        <p id="airCondition" style="background:rgb(100, 0, 0); color:white;">@ViewBag.Dust.IntensityPm2_5 &#181/m&sup3 </p>
-                    }
+                    <div id="iaq">
+                        @if (0 < @ViewBag.Dust.IntensityPm2_5 && @ViewBag.Dust.IntensityPm2_5 <= 13)
+                        {
+                            <img src="~/css/icons/nice.png" />
+                        }
+                        else if (13 < @ViewBag.Dust.IntensityPm2_5 && @ViewBag.Dust.IntensityPm2_5 <= 35)
+                        {
+                            <img src="~/css/icons/nice.png" />
+                        }
+                        else if (35 < @ViewBag.Dust.IntensityPm2_5 && @ViewBag.Dust.IntensityPm2_5 <= 55)
+                        {
+                            <img src="~/css/icons/ok.png" />
+                        }
+                        else if (55 < @ViewBag.Dust.IntensityPm2_5 && @ViewBag.Dust.IntensityPm2_5 <= 75)
+                        {
+                            <img src="~/css/icons/ok.png" />
+                        }
+                        else if (75 < @ViewBag.Dust.IntensityPm2_5 && @ViewBag.Dust.IntensityPm2_5 <= 110)
+                        {
+                            <img src="~/css/icons/bad.png" />
+                        }
+                        else if (110 < @ViewBag.Dust.IntensityPm2_5)
+                        {
+                            <img src="~/css/icons/veryBad.png" />
+                        }
+                        <span>IAQ<p>@ViewBag.Environmental.IAQuality</p></span>
+                    </div>
+                    <p id="airCondition">PM2.5: @ViewBag.Dust.IntensityPm2_5 &#181/m&sup3 </p>
+                    <p id="airCondition1" style="margin-top:-5%;">PM10: @ViewBag.Dust.IntensityPm10 &#181/m&sup3 </p>
+                    
+                   
                 </div>
 
             </div>

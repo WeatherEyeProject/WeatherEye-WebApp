@@ -14,18 +14,18 @@
 }
 
 #rain{
-    font-size:3.5vh;
+    font-size:4.5vh;
     margin:10%;
 
 }
 #rain img{
-    width:35%;
-    margin-right:10%;
+    width:30%;
+    margin-right:7%;
 }
 
 #pressure {
     font-size: 4.5vh;
-    margin-top: -0.5vh;
+    margin-top: -1vh;
 }
 
 #intensity {
