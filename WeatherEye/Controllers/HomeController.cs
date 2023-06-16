@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using WeatherEye.Models;
 
 namespace WeatherEye.Controllers
@@ -7,8 +8,9 @@ namespace WeatherEye.Controllers
     public class HomeController : Controller
     {
         private readonly DataContext _context;
-        
+        double utc = Convert.ToDouble(DateTime.Now.ToString("HH")) - Convert.ToDouble(DateTime.UtcNow.ToString("HH"));
 
+        
         public HomeController(DataContext context)
         {
             _context = context;
@@ -18,18 +20,25 @@ namespace WeatherEye.Controllers
         {
             var dusts = _context.DustSensors
                 .ToList();
-            return View(dusts);
-        }
 
-        public ActionResult LineChart() 
-        {
-            return View();
+            dusts.ForEach(d =>
+            {
+                d.DateOfReading = d.DateOfReading.AddHours(utc);
+            });
+
+            return View(dusts);
         }
 
         public IActionResult EnvironmentalSensorView()
         {
             var environmental = _context.EnvironmentalSensors
                 .ToList();
+
+            environmental.ForEach(e =>
+            {
+                e.DateOfReading = e.DateOfReading.AddHours(utc);
+            });
+
             return View(environmental);
         }
 
@@ -37,16 +46,43 @@ namespace WeatherEye.Controllers
         {
             var light = _context.LightSensors
                 .ToList();
+
+            light.ForEach(l =>
+            {
+                l.DateOfReading = l.DateOfReading.AddHours(utc);
+            });
+
             return View(light);
         }
 
         public IActionResult RainSensorView()
         {
-            var rain = _context.RainSensors
-                .OrderBy(d => d.DateOfReading.Date)
-                .ThenBy(d => d.DateOfReading.TimeOfDay)
+            List<RainSensor> rain = _context.RainSensors
+                .GroupBy(x => x.DateOfReading.Date)
+                .Select(group => new RainSensor
+                {
+                    DateOfReading = group.Key,
+                    Rain = group.Average(x => x.Rain),
+                    IntensityOfRain = group.Average(x => x.IntensityOfRain)
+
+                })
                 .ToList();
+
             return View(rain);
+        }
+        public IActionResult RainSensorDetails( DateTime date)
+        {
+            var uv = _context.RainSensors
+            .Where(x => x.DateOfReading >= date.AddHours(4) && x.DateOfReading <= date.AddDays(+1).AddHours(4))
+            .ToList();
+            uv.ForEach(u =>
+            {
+                u.DateOfReading = u.DateOfReading.AddHours(utc);
+            });
+
+            ViewData["Date"] = date.Date.ToString("yyyy-MM-dd");
+            return View(uv);
+
         }
 
         public IActionResult UVSensorView()
@@ -65,12 +101,14 @@ namespace WeatherEye.Controllers
         public IActionResult UVSensorDetails( DateTime date )
         {
             var uv = _context.UVSensors
-                .Where(x => x.DateOfReading.Date == date.Date)
-                .FirstOrDefault();
-            if ( uv == null)
+                .Where(x => x.DateOfReading >= date.AddHours(4) && x.DateOfReading <= date.AddDays(+1).AddHours(4))
+                .ToList();
+            uv.ForEach(u =>
             {
-                return NotFound();
-            }
+                u.DateOfReading = u.DateOfReading.AddHours(utc);
+            });
+
+            ViewData["Date"] = date.Date.ToString("yyyy-MM-dd");
             return View(uv);
         }
 
@@ -92,6 +130,26 @@ namespace WeatherEye.Controllers
             ViewBag.Dust = dust;
             ViewBag.UV = uv;
             ViewBag.Rain = rain;
+            ViewData["Today"] = _context.EnvironmentalSensors
+                .Where(x => x.DateOfReading == DateTime.Today)
+                .Average(x => x.Temperature);
+
+            ViewData["Today1"] = _context.EnvironmentalSensors
+            .Where(x => x.DateOfReading == DateTime.Today.AddDays(-1))
+            .Average(x => x.Temperature);
+
+            ViewData["Today2"] = _context.EnvironmentalSensors
+            .Where(x => x.DateOfReading == DateTime.Today.AddDays(-2))
+            .Average(x => x.Temperature);
+
+            ViewData["Today3"] = _context.EnvironmentalSensors
+            .Where(x => x.DateOfReading == DateTime.Today.AddDays(-3))
+            .Average(x => x.Temperature);
+
+            ViewData["Today4"] = _context.EnvironmentalSensors
+            .Where(x => x.DateOfReading == DateTime.Today.AddDays(-4))
+            .Average(x => x.Temperature);
+
             return View();
         }
 

@@ -87,7 +87,10 @@
     <thead>
         <tr>
             <th>Natężenie światła UV</th>
+            <th>Min natężenie dla dnia</th>
+            <th>Max natężenie dla dnia</th>
             <th>Data Odczytu</th>
+
             <th></th>
         </tr>
     </thead>
@@ -96,6 +99,8 @@
         {
                 <tr>
                 <td>@Math.Round(Convert.ToDouble(uv.IlluminanceUV),2)UVI</td>
+                <td>@uv.IlluminanceUV</td>
+                <td></td>
                 <td>@uv.DateOfReading.ToString("yyyy-MM-dd")</td>
                 <td>
                     <a href="@Url.Action("UVSensorDetails", new { date = uv.DateOfReading.ToString("yyyy-MM-dd") })" class="btn btn-outline-dark">Szczegóły dnia</a>

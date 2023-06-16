@@ -1,7 +1,25 @@
-﻿@model WeatherEye.Models.UVSensor
+﻿@model IEnumerable<WeatherEye.Models.UVSensor>
 
 @{
     ViewData["Title"] = "Szczegóły";
+
+    var tempMax = Model.FirstOrDefault().IlluminanceUV;
+    var tempMin = Model.FirstOrDefault().IlluminanceUV;
+    DateTime morning = new DateTime(2023,01,01,4,00,00);
+    //DateTime evening = new DateTime(0, 0, 0, 22, 00, 00);
+
+    @foreach (var uv in Model)
+    {
+        @if (tempMax < uv.IlluminanceUV)
+        {
+            tempMax = uv.IlluminanceUV;   
+        }
+        else if (tempMin > uv.IlluminanceUV)
+        {
+            tempMin = uv.IlluminanceUV;     
+        }
+    }
+        
 }
 <head>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -9,49 +27,43 @@
 </head>
 
 <h2>Odczyty z czujnika UV</h2>
-<h1>Szczegóły dnia @Model.DateOfReading.ToString("yyyy-MM-dd")</h1>
-
+<h1>Szczegóły dnia </h1>
+<h2>Data: @ViewData["Date"]</h2>
 <div>
     <canvas id="myChart"></canvas>
 </div>
 </br>
-<b>Dane:</b>
-<br />
-<div id="outputTableDiv"></div>
-
 <script>
+    // Pobranie danych z listy "rain" i przypisanie ich do zmiennych
     let dates = [];
     let uv = [];
-    fetch('/api/sensors/S6/@Model.DateOfReading.ToString("yyyy-MM-dd")/@Model.DateOfReading.ToString("yyyy-MM-dd")')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Error fetching data from API');
-            }
-            //console.log(response);
-            return response.json();
-        })
-        .then(data => {
-            data.forEach(item => {
-                dates.push(item.date);
-                uv.push(item.value);
-            })
-        })
-        .catch(error => {
-            console.error('Error fetching data:', error);
-        });
+
+    @foreach (var item in Model)
+    {
+        <text>
+            dates.push('@item.DateOfReading.ToString("yyyy-MM-dd HH:mm")');
+            uv.push('@item.IlluminanceUV');
+        </text>
+    }
+        // Konfiguracja i generowanie wykresu liniowego przy użyciu danych z listy
+    for (let i = 0; i < uv.length; i++) {
+        uv[i] = uv[i].toString();
+        uv[i] = uv[i].replace(",", ".");
+        console.log(uv[i]);
+    }
 
     let ctx = document.getElementById('myChart').getContext('2d');
     let chart = new Chart(ctx, {
         type: 'line',
         data: {
-            labels: dates, // dane na osi OX
+            labels: dates, // Dane na osi OX
             datasets: [{
-                label: 'IlluminanceUV Data', // etykieta wykresu
-                data: uv, // dane na osi OY
-                backgroundColor: 'rgba(75, 192, 192, 0.2)', // kolor wypełnienia wykresu
+                label: 'Rain Data', // Etykieta wykresu
+                data: uv, // Dane na osi OY
+                backgroundColor: 'rgba(75, 192, 192, 0.2)', // Kolor wypełnienia wykresu
                 fill: true,
-                borderColor: 'rgba(75, 192, 192, 1)', // kolor linii wykresu
-                tension: 0.1 // grubość linii wykresu
+                borderColor: 'rgba(75, 192, 192, 1)', // Kolor linii wykresu
+                tension: 0.1 // Grubość linii wykresu
             }]
         },
         options: {
@@ -63,24 +75,47 @@
             }
         }
     });
-
-    //console.log(dates);
-    //console.log(uv);
-
-    //let tableContent = "<table>";
-    //tableContent += "<tr><th>Data</tv> <th>Wartość odczytu</th></tr>";
-    //for (let i = 0; i < dates.length; i++) {
-    //    tableContent += "<tr>";
-    //    tableContent += "<td>" + 1 + "</td>";
-    //    tableContent += "<td>" + 2 + "</td>";
-    //    tableContent += "</tr>";
-    //}
-    //tableContent += "</table>";
-
-    //document.getElementById("outputTableDiv").innerHTML = tableContent;
 </script>
 
+<br />
+<br />
+<table class="table">
+    <thead>
+        <tr>
+            <th>IlluminanceUV</th>
+            <th>Data Odczytu</th>
+        </tr>
+    </thead>
+    <tbody>  
+        @foreach (var uv in Model)
+        {
+            <tr>
+                @if (tempMax == uv.IlluminanceUV)
+                {
+                    <td>@Html.DisplayFor(modelItem => uv.IlluminanceUV)<sup>Maks</sup></td>
+                }
+                else if (tempMin == uv.IlluminanceUV)
+                {
+                    <td>@Html.DisplayFor(modelItem => uv.IlluminanceUV)<sup>Min</sup></td>
+                }
+                else
+                {
+                    <td>@Html.DisplayFor(modelItem => uv.IlluminanceUV)</td>
+                }
+                @if (uv.DateOfReading.Hour <= morning.Hour)//noc
+                {
+                    <td style="background:blue; color:yellow;">@uv.DateOfReading.ToString("yyyy-MM-dd HH:mm")</td>
+                }
+                else
+                {
+                    <td style="background:gold ;color:blue;">@uv.DateOfReading.ToString("yyyy-MM-dd HH:mm")</td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>
 
-<a asp-action="UVSensorView" class="btn btn-primary">Powrót</a>
+<br />
+<a asp-action="UVSensorView" class="btn btn-primary" style="font-size:28px;">Powrót</a>
 <br />
 <br />

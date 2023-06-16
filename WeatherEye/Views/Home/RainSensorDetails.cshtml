@@ -1,23 +1,39 @@
 ﻿@model IEnumerable<WeatherEye.Models.RainSensor>
 
 @{
-    ViewData["Title"] = "RainSensor";
-}
+    ViewData["Title"] = "Szczegóły";
 
+    var tempMax = Model.FirstOrDefault().Rain;
+    var tempMin = Model.FirstOrDefault().Rain;
+    DateTime morning = new DateTime(2023, 01, 01, 4, 00, 00);
+    //DateTime evening = new DateTime(0, 0, 0, 22, 00, 00);
+
+    @foreach (var rain in Model)
+    {
+        @if (tempMax < rain.Rain)
+        {
+            tempMax = rain.Rain;
+        }
+        else if (tempMin > rain.Rain)
+        {
+            tempMin = rain.Rain;
+        }
+    }
+
+}
 <head>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js/dist/Chart.min.css">
 </head>
-<!-- Element HTML, w którym zostanie wygenerowany wykres -->
 
-<h2>Wykres dla danych z czujnika deszczu</h2>
+<h2>Odczyty z czujnika UV</h2>
+<h1>Szczegóły dnia </h1>
+<h2>Data: @ViewData["Date"]</h2>
 <div>
     <canvas id="myChart"></canvas>
 </div>
-
-<!-- Skrypt JavaScript generujący wykres liniowy na podstawie danych z listy "rain" -->
+</br>
 <script>
-    // Pobranie danych z listy "rain" i przypisanie ich do zmiennych
     // Pobranie danych z listy "rain" i przypisanie ich do zmiennych
     let dates = [];
     let rain = [];
@@ -27,12 +43,12 @@
     {
         <text>
             dates.push('@item.DateOfReading.ToString("yyyy-MM-dd")');
-        rain.push('@item.Rain');
-        intensity.push('@item.IntensityOfRain');
+            rain.push('@item.Rain');
+            intensity.push('@item.IntensityOfRain');
         </text>
     }
-                // Konfiguracja i generowanie wykresu liniowego przy użyciu danych z listy
-        for (let i = 0; i < rain.length; i++) {
+            // Konfiguracja i generowanie wykresu liniowego przy użyciu danych z listy
+    for (let i = 0; i < rain.length; i++) {
         rain[i] = rain[i].toString();
         rain[i] = rain[i].replace(",", ".");
     }
@@ -53,7 +69,7 @@
                 backgroundColor: 'rgba(75, 192, 192, 0.2)', // Kolor wypełnienia wykresu
                 fill: true,
                 borderColor: 'rgba(75, 192, 192, 1)', // Kolor linii wykresu
-                tension: 0.1, // Grubość linii wykresu
+                tension: 0.1 // Grubość linii wykresu
                 yAxisID: 'y',
             },
             {
@@ -62,7 +78,7 @@
                 backgroundColor: 'rgba(139, 0, 0, 0.2)',
                 fill: true,
                 borderColor: 'rgba(139, 0, 0, 0.2)',
-                tension: 0.1,
+                tension: 0.1, 
                 yAxisID: 'y1',
             }
             ]
@@ -98,31 +114,48 @@
 </script>
 
 <br />
-
-<h2>Odczyty z czujnika Deszczu </h2>
-
+<br />
 <table class="table">
     <thead>
         <tr>
             <th>Rain</th>
-            <th>Intensity Of Rain</th>
-            <th>Date &amp; Time Of Reading</th>
-            <th></th>
+            <th>IntensityOfRain</th>
+            <th>Data Odczytu</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var rain in Model)
         {
             <tr>
-                <td>@Math.Round(Convert.ToDouble( rain.Rain), 2)mm</td>
-                <td>@Math.Round(Convert.ToDouble(rain.IntensityOfRain), 2)</td>
-                <td>@rain.DateOfReading.ToString("yyyy-MM-dd")</td>
-                <td>
-                    <a href="@Url.Action("RainSensorDetails", new { date = rain.DateOfReading.ToString("yyyy-MM-dd") })" class="btn btn-outline-dark">Szczegóły dnia</a>
-                </td>
+                @if (tempMax == rain.Rain)
+                {
+                    <td>@Html.DisplayFor(modelItem => rain.Rain)<sup>Maks</sup></td>
+                }
+                else if (tempMin == rain.Rain)
+                {
+                    <td>@Html.DisplayFor(modelItem => rain.Rain)<sup>Min</sup></td>
+                }
+                else
+                {
+                    <td>@Html.DisplayFor(modelItem => rain.Rain)</td>
+                }
+
+                <td>@Html.DisplayFor(modelItem => rain.IntensityOfRain)</td>
+
+                @if (rain.DateOfReading.Hour <= morning.Hour)//noc
+                {
+                    <td style="background:blue; color:yellow;">@rain.DateOfReading.ToString("yyyy-MM-dd HH:mm")</td>
+                }
+                else
+                {
+                    <td style="background:gold ;color:blue;">@rain.DateOfReading.ToString("yyyy-MM-dd HH:mm")</td>
+                }
             </tr>
         }
     </tbody>
 </table>
+
+<br />
+<a asp-action="RainSensorView" class="btn btn-primary" style="font-size:28px;">Powrót</a>
 <br />
 <br />

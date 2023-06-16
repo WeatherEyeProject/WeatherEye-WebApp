@@ -94,7 +94,8 @@
             }
         }
     });
-
+    let utc = @DateTime.Now.ToString("HH") - @DateTime.UtcNow.ToString("HH");
+        console.log(utc);
 
 </script>
 
@@ -111,12 +112,12 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var uv in Model)
+        @foreach (var dust in Model)
         {
             <tr>
-                <td>@Html.DisplayFor(modelItem => uv.IntensityPm2_5)&micro;G/m<sup>3</sup></td>
-                <td>@Html.DisplayFor(modelItem => uv.IntensityPm10)&micro;G/m<sup>3</sup></td>
-                <td>@Html.DisplayFor(modelItem => uv.DateOfReading)</td>
+                <td>@Html.DisplayFor(modelItem => dust.IntensityPm2_5)&micro;G/m<sup>3</sup></td>
+                <td>@Html.DisplayFor(modelItem => dust.IntensityPm10)&micro;G/m<sup>3</sup></td>
+                <td>@Html.DisplayFor(modelItem => dust.DateOfReading)</td>
             </tr>
         }
     </tbody>

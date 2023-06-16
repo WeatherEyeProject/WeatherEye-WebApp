@@ -112,27 +112,27 @@
                 <div class="topDiv">
                     <div class="fifth">
                         <div>@DateTime.Now.AddDays(-4).ToString("dd.MM")</div>
-                        <div class="tempBox">16&deg;C</div>
+                        <div class="tempBox">@ViewData["Today4"] &deg;C</div>
                         <div>@DateTime.Now.AddDays(-4).ToString("ddd", new System.Globalization.CultureInfo("en-US"))</div>
                     </div>
                     <div class="fourth">
                         <div>@DateTime.Now.AddDays(-3).ToString("dd.MM")</div>
-                        <div class="tempBox">17&deg;C</div>
+                        <div class="tempBox">@ViewData["Today3"] &deg;C</div>
                         <div>@DateTime.Now.AddDays(-3).ToString("ddd", new System.Globalization.CultureInfo("en-US"))</div>
                     </div>
                     <div class="third">
                         <div>@DateTime.Now.AddDays(-2).ToString("dd.MM")</div>
-                        <div class="tempBox">18&deg;C</div>
+                        <div class="tempBox">@ViewData["Today2"] &deg;C</div>
                         <div>@DateTime.Now.AddDays(-2).ToString("ddd", new System.Globalization.CultureInfo("en-US"))</div>
                     </div>
                     <div class="second">
                         <div>@DateTime.Now.AddDays(-1).ToString("dd.MM")</div>
-                        <div class="tempBox">19&deg;C</div>
+                        <div class="tempBox">@ViewData["Today1"] &deg;C</div>
                         <div>@DateTime.Now.AddDays(-1).ToString("ddd", new System.Globalization.CultureInfo("en-US"))</div>
                     </div>
                     <div class="first">
                         <div>@DateTime.Now.ToString("dd.MM")</div>
-                        <div class="tempBox">20&deg;C</div>
+                        <div class="tempBox">@ViewData["Today0"] &deg;C</div>
                         <div>@DateTime.Now.ToString("ddd", new System.Globalization.CultureInfo("en-US"))</div>
                     </div>
                     <div class="longArrow">
