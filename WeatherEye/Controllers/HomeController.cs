@@ -18,15 +18,34 @@ namespace WeatherEye.Controllers
 
         public IActionResult DustSensorView()
         {
-            var dusts = _context.DustSensors
+            List<DustSensor> dust = _context.DustSensors
+                .GroupBy(x => x.DateOfReading.Date)
+                .Select(group => new DustSensor
+                {
+                    DateOfReading = group.Key,
+                    IntensityPm2_5 = group.Average(x => x.IntensityPm2_5),
+                    IntensityPm10 = group.Average(x => x.IntensityPm10),
+                })
                 .ToList();
 
-            dusts.ForEach(d =>
+            return View(dust);
+        }
+
+        public IActionResult DustSensorDetails(DateTime date)
+        {
+
+            var dust = _context.DustSensors
+                .Where(x => x.DateOfReading >= date.AddHours(4) && x.DateOfReading <= date.AddDays(+1).AddHours(4))
+                .ToList();
+
+            dust.ForEach(d =>
             {
                 d.DateOfReading = d.DateOfReading.AddHours(utc);
             });
 
-            return View(dusts);
+            ViewData["Date"] = date.Date.ToString("yyyy-MM-dd");
+
+            return View(dust);
         }
 
         public IActionResult EnvironmentalSensorView()
@@ -44,14 +63,30 @@ namespace WeatherEye.Controllers
 
         public IActionResult LightSensorView()
         {
-            var light = _context.LightSensors
+            List<LightSensor> light = _context.LightSensors
+                .GroupBy(x => x.DateOfReading.Date)
+                .Select(group => new LightSensor
+                {
+                    DateOfReading = group.Key,
+                    IlluminanceLux = group.Average(x => x.IlluminanceLux)
+                })
                 .ToList();
 
+            return View(light);
+        }
+
+        public IActionResult LightSensorDetails(DateTime date)
+        {
+            var light = _context.LightSensors
+             .Where(x => x.DateOfReading >= date.AddHours(4) && x.DateOfReading <= date.AddDays(+1).AddHours(4))
+             .ToList();
             light.ForEach(l =>
             {
                 l.DateOfReading = l.DateOfReading.AddHours(utc);
             });
 
+            ViewData["Date"] = date.Date.ToString("yyyy-MM-dd");
+            
             return View(light);
         }
 
@@ -72,16 +107,16 @@ namespace WeatherEye.Controllers
         }
         public IActionResult RainSensorDetails( DateTime date)
         {
-            var uv = _context.RainSensors
+            var rain = _context.RainSensors
             .Where(x => x.DateOfReading >= date.AddHours(4) && x.DateOfReading <= date.AddDays(+1).AddHours(4))
             .ToList();
-            uv.ForEach(u =>
+            rain.ForEach(r =>
             {
-                u.DateOfReading = u.DateOfReading.AddHours(utc);
+                r.DateOfReading = r.DateOfReading.AddHours(utc);
             });
 
             ViewData["Date"] = date.Date.ToString("yyyy-MM-dd");
-            return View(uv);
+            return View(rain);
 
         }
 

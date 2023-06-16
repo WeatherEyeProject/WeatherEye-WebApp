@@ -114,7 +114,7 @@
         @foreach (var rain in Model)
         {
             <tr>
-                <td>@Math.Round(Convert.ToDouble( rain.Rain), 2)mm</td>
+                <td>@Math.Round(Convert.ToDouble(rain.Rain), 2)mm</td>
                 <td>@Math.Round(Convert.ToDouble(rain.IntensityOfRain), 2)</td>
                 <td>@rain.DateOfReading.ToString("yyyy-MM-dd")</td>
                 <td>

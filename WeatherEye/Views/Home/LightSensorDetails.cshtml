@@ -1,0 +1,131 @@
+﻿@model IEnumerable<WeatherEye.Models.LightSensor>
+
+@{
+    ViewData["Title"] = "Szczegóły";
+
+    var tempMax = Model.FirstOrDefault().IlluminanceLux;
+    var tempMin = Model.FirstOrDefault().IlluminanceLux;
+    DateTime morning = new DateTime(2023, 01, 01, 4, 00, 00);
+    //DateTime evening = new DateTime(0, 0, 0, 22, 00, 00);
+
+    @foreach (var light in Model)
+    {
+        @if (tempMax < light.IlluminanceLux)
+        {
+            tempMax = light.IlluminanceLux;
+        }
+        else if (tempMin > light.IlluminanceLux)
+        {
+            tempMin = light.IlluminanceLux;
+        }
+    }
+
+}
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js/dist/Chart.min.css">
+</head>
+
+<h2>Odczyty z czujnika światła</h2>
+<h1>Szczegóły dnia </h1>
+<h2>Data: @ViewData["Date"]</h2>
+<div>
+    <canvas id="myChart"></canvas>
+</div>
+<br>
+<script>
+    // Pobranie danych z listy "rain" i przypisanie ich do zmiennych
+    let dates = [];
+    let light = [];
+
+    @foreach (var item in Model)
+    {
+        <text>
+            dates.push('@item.DateOfReading.ToString("yyyy-MM-dd HH:mm")');
+            light.push('@item.IlluminanceLux');
+        </text>
+    }
+                // Konfiguracja i generowanie wykresu liniowego przy użyciu danych z listy
+        for (let i = 0; i < light.length; i++) {
+        light[i] = light[i].toString();
+        light[i] = light[i].replace(",", ".");
+    }
+
+    let ctx = document.getElementById('myChart').getContext('2d');
+    let chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: dates, // Dane na osi OX
+            datasets: [{
+                label: 'Light Data', // Etykieta wykresu
+                data: light, // Dane na osi OY
+                backgroundColor: 'rgba(75, 192, 192, 0.2)', // Kolor wypełnienia wykresu
+                fill: true,
+                borderColor: 'rgba(75, 192, 192, 1)', // Kolor linii wykresu
+                tension: 0.1, // Grubość linii wykresu
+                yAxisID: 'y',
+            }
+            ]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    type: 'linear',
+                    position: 'left',
+                    title: {
+                        display: 'true',
+                        text: 'Oś dla danych Light LUX',
+                        font: {
+                            size: 30
+                        }
+                    },
+                }
+                }
+            }
+    });
+</script>
+
+<br />
+<br />
+<table class="table">
+    <thead>
+        <tr>
+            <th>Light LUX</th>
+            <th>Data Odczytu</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var light in Model)
+        {
+            <tr>
+                @if (tempMax == light.IlluminanceLux)
+                {
+                    <td>@Html.DisplayFor(modelItem => light.IlluminanceLux)<sup>Maks</sup></td>
+                }
+                else if (tempMin == light.IlluminanceLux)
+                {
+                    <td>@Html.DisplayFor(modelItem => light.IlluminanceLux)<sup>Min</sup></td>
+                }
+                else
+                {
+                    <td>@Html.DisplayFor(modelItem => light.IlluminanceLux)</td>
+                }
+
+                @if (light.DateOfReading.Hour <= morning.Hour)//noc
+                {
+                    <td style="background:blue; color:yellow;">@light.DateOfReading.ToString("yyyy-MM-dd HH:mm")</td>
+                }
+                else
+                {
+                    <td style="background:gold ;color:blue;">@light.DateOfReading.ToString("yyyy-MM-dd HH:mm")</td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>
+
+<br />
+<a asp-action="LightSensorView" class="btn btn-primary" style="font-size:28px;">Powrót</a>
+<br />
+<br />

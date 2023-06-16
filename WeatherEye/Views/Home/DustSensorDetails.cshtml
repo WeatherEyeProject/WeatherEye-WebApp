@@ -2,6 +2,38 @@
 
 @{
     ViewData["Title"] = "DustSensor";
+
+    var tempMax2_5 = Model.FirstOrDefault().IntensityPm2_5;
+    var tempMin2_5 = Model.FirstOrDefault().IntensityPm2_5;
+    var tempMax10 = Model.FirstOrDefault().IntensityPm10;
+    var tempMin10 = Model.FirstOrDefault().IntensityPm10;
+
+    DateTime morning = new DateTime(2023, 01, 01, 4, 00, 00);
+    //DateTime evening = new DateTime(0, 0, 0, 22, 00, 00);
+
+    @foreach (var dust in Model)
+    {
+        @if (tempMax2_5 < dust.IntensityPm2_5)
+        {
+            tempMax2_5 = dust.IntensityPm2_5;
+        }
+        else if (tempMin2_5 > dust.IntensityPm2_5)
+        {
+            tempMin2_5 = dust.IntensityPm2_5;
+        }
+    }
+
+    @foreach (var dust in Model)
+    {
+        @if (tempMax10 < dust.IntensityPm10)
+        {
+            tempMax10 = dust.IntensityPm10;
+        }
+        else if (tempMin10 > dust.IntensityPm10)
+        {
+            tempMin10 = dust.IntensityPm10;
+        }
+    }
 }
 
 <head>
@@ -10,7 +42,8 @@
 </head>
 
 <h2>Wykres dla danych z czujnika pyłów</h2>
-
+<h1>Szczegóły dnia </h1>
+<h2>Data: @ViewData["Date"]</h2>
 <div>
     <canvas id="dustChart"></canvas>
 </div>
@@ -24,7 +57,7 @@
     @foreach (var item in Model)
     {
         <text>
-            dates.push('@item.DateOfReading.ToString("yyyy-MM-dd")');
+            dates.push('@item.DateOfReading.ToString("yyyy-MM-dd HH:mm")');
             intensityPm2_5.push('@item.IntensityPm2_5');
             intensityPm10.push('@item.IntensityPm10');
         </text>
@@ -57,11 +90,11 @@
             },
             {
                 label: 'PM10 Data',
-                data: intensityPm10, 
+                data: intensityPm10,
                 backgroundColor: 'rgba(139, 0, 0, 0.2)',
-                    fill: true,
+                fill: true,
                 borderColor: 'rgba(139, 0, 0, 0.2)',
-                tension: 0.1, 
+                tension: 0.1,
                 yAxisID: 'y1',
             }
             ]
@@ -107,20 +140,52 @@
             <th>IntensityPm2_5</th>
             <th>IntensityPm10</th>
             <th>Data Odczytu</th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
         @foreach (var dust in Model)
         {
             <tr>
-                <td>@Math.Round(Convert.ToDouble(dust.IntensityPm2_5), 2)&micro;G/m<sup>3</sup></td>
-                <td>@Math.Round(Convert.ToDouble(dust.IntensityPm10), 2)&micro;G/m<sup>3</sup></td>
-                <td>@dust.DateOfReading.ToString("yyyy-MM-dd")</td>
-                <td>
-                    <a href="@Url.Action("DustSensorDetails", new { date = dust.DateOfReading.ToString("yyyy-MM-dd") })" class="btn btn-outline-dark">Szczegóły dnia</a>
-                </td>
+                @if (tempMax2_5 == dust.IntensityPm2_5)
+                {
+                    <td>@Html.DisplayFor(modelItem => dust.IntensityPm2_5)<sup>Maks</sup></td>
+                }
+                else if (tempMin2_5 == dust.IntensityPm2_5)
+                {
+                    <td>@Html.DisplayFor(modelItem => dust.IntensityPm2_5)<sup>Min</sup></td>
+                }
+                else
+                {
+                    <td>@Html.DisplayFor(modelItem =>  dust.IntensityPm2_5)</td>
+                }
+
+                @if (tempMax10 == dust.IntensityPm10)
+                {
+                    <td>@Html.DisplayFor(modelItem => dust.IntensityPm10)<sup>Maks</sup></td>
+                }
+                else if (tempMin10 == dust.IntensityPm10)
+                {
+                    <td>@Html.DisplayFor(modelItem => dust.IntensityPm10)<sup>Min</sup></td>
+                }
+                else
+                {
+                    <td>@Html.DisplayFor(modelItem =>  dust.IntensityPm10)</td>
+                }
+
+                @if (dust.DateOfReading.Hour <= morning.Hour)//noc
+                {
+                <td style="background:blue; color:yellow;">@dust.DateOfReading.ToString("yyyy-MM-dd HH:mm")</td>
+                }
+                else
+                {
+                <td style="background:gold ;color:blue;">@dust.DateOfReading.ToString("yyyy-MM-dd HH:mm")</td>
+                }
             </tr>
         }
     </tbody>
 </table>
+
+<br />
+<a asp-action="DustSensorView" class="btn btn-primary" style="font-size:28px;">Powrót</a>
+<br />
+<br />

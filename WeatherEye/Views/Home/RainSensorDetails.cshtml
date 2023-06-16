@@ -26,13 +26,13 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js/dist/Chart.min.css">
 </head>
 
-<h2>Odczyty z czujnika UV</h2>
+<h2>Odczyty z czujnika deszczu</h2>
 <h1>Szczegóły dnia </h1>
 <h2>Data: @ViewData["Date"]</h2>
 <div>
     <canvas id="myChart"></canvas>
 </div>
-</br>
+<br>
 <script>
     // Pobranie danych z listy "rain" i przypisanie ich do zmiennych
     let dates = [];
@@ -42,7 +42,7 @@
     @foreach (var item in Model)
     {
         <text>
-            dates.push('@item.DateOfReading.ToString("yyyy-MM-dd")');
+            dates.push('@item.DateOfReading.ToString("yyyy-MM-dd HH:mm")');
             rain.push('@item.Rain');
             intensity.push('@item.IntensityOfRain');
         </text>
@@ -69,7 +69,7 @@
                 backgroundColor: 'rgba(75, 192, 192, 0.2)', // Kolor wypełnienia wykresu
                 fill: true,
                 borderColor: 'rgba(75, 192, 192, 1)', // Kolor linii wykresu
-                tension: 0.1 // Grubość linii wykresu
+                tension: 0.1, // Grubość linii wykresu
                 yAxisID: 'y',
             },
             {

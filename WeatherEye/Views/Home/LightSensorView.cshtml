@@ -24,8 +24,8 @@
     @foreach (var item in Model)
     {
         <text>
-        dates.push('@item.DateOfReading.ToString("yyyy-MM-dd HH:mm")');
-        illuminanceLux.push('@item.IlluminanceLux');
+            dates.push('@item.DateOfReading.ToString("yyyy-MM-dd HH:mm")');
+            illuminanceLux.push('@item.IlluminanceLux');
         </text>
     }
 
@@ -59,14 +59,12 @@
                     position: 'left',
                     title: {
                         display: 'true',
-                        text: 'Oś dla danych PM2.5',
+                        text: 'Oś dla pomiaru światła LUX',
                     },
                 }
             }
         }
     });
-
-
 </script>
 
 <h2>Odczyty z czujnika światła </h2>
@@ -76,15 +74,19 @@
         <tr>
             <th>IlluminanceLux</th>
             <th>DateOfReading</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var uv in Model)
+        @foreach (var light in Model)
         {
-                    <tr>
-                        <td>@Html.DisplayFor(modelItem => uv.IlluminanceLux)Lux</td>
-                        <td>@Html.DisplayFor(modelItem => uv.DateOfReading)</td>
-                    </tr>
+            <tr>
+                <td>@Html.DisplayFor(modelItem => light.IlluminanceLux)Lux</td>
+                <td>@light.DateOfReading.ToString("yyyy-MM-dd")</td>
+                <td>
+                    <a href="@Url.Action("LightSensorDetails", new { date = light.DateOfReading.ToString("yyyy-MM-dd") })" class="btn btn-outline-dark">Szczegóły dnia</a>
+                </td>
+            </tr>
         }
     </tbody>
 </table>
